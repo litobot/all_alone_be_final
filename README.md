@@ -1,5 +1,7 @@
 # README
 
+***THIS WILL NEED TO BE UPDATED - THIS COMMENT TO ENABLE PUSH FROM DEV BRANCH***
+
 ### Project Description
 In this group project, Little Shop, our team worked on building an E-Commerce application using service-oriented architecture, where the back and front ends are separate and communicate via APIs.
 
