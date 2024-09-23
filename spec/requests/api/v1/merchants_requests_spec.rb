@@ -9,9 +9,9 @@ RSpec.describe "Merchants endpoints", type: :request do
     @customer_1 = Customer.create!(first_name: "Johnny", last_name: "Carson")
     @customer_2 = Customer.create!(first_name: "King", last_name: "Louie")
     
-    @invoice_1 = Invoice.create!(status: "not returned", customer_id: @customer_1.id, merchant_id: @merchant_1.id)
+    @invoice_1 = Invoice.create!(status: "shipped", customer_id: @customer_1.id, merchant_id: @merchant_1.id)
     @invoice_2 = Invoice.create!(status: "returned", customer_id: @customer_1.id, merchant_id: @merchant_1.id)
-    @invoice_3 = Invoice.create!(status: "not returned", customer_id: @customer_1.id, merchant_id: @merchant_3.id)
+    @invoice_3 = Invoice.create!(status: "shipped", customer_id: @customer_1.id, merchant_id: @merchant_3.id)
     @invoice_4 = Invoice.create!(status: "returned", customer_id: @customer_2.id, merchant_id: @merchant_3.id)
     @invoice_5 = Invoice.create!(status: "returned", customer_id: @customer_2.id, merchant_id: @merchant_3.id)  
   end
