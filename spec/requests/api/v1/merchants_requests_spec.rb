@@ -111,7 +111,7 @@ RSpec.describe "Merchants endpoints", type: :request do
     expect(attributes[:name]).to be_a(String)
   end
 
-  xit "can delete a merchant and associated records, returns 204 no content" do
+  it "can delete a merchant and associated records, returns 204 no content" do
     item1 = @merchant_1.items.create!(name: "Item 1", description: "WOW", unit_price: 20)
     item2 = @merchant_1.items.create!(name: "Item 2", description: "Amazing", unit_price: 30)
 
