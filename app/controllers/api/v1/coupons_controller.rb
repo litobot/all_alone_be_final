@@ -16,4 +16,15 @@ class Api::V1::CouponsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Coupon not found" }, status: :not_found
   end
+
+  def create
+    new_coupon = Coupon.create(coupon_params)
+    render json: CouponSerializer.new(new_coupon), status: 201
+  end
+
+  private
+
+  def coupon_params
+    params.require(:coupon).permit(:name, :code, :percent_off, :dollar_off, :status)
+  end
 end
