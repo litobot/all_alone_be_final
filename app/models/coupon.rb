@@ -23,4 +23,14 @@ class Coupon < ApplicationRecord
       errors.add(:base, "Either dollar_off or percent_off must be present")
     end
   end
+
+  # Must pass the merchant's id from CouponsController
+  # How else is it going to know who's coupon we want?
+  def self.sort_by_status(merchant_id, status)
+    if status == "active"
+      Coupon.where(merchant_id: merchant_id, status: :active)
+    elsif status == "inactive"
+      Coupon.where(merchant_id: merchant_id, status: :inactive)
+    end
+  end
 end
