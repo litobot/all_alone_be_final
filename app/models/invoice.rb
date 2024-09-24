@@ -7,7 +7,6 @@ class Invoice < ApplicationRecord
   has_many :items, through: :invoice_items
   has_many :transactions, dependent: :destroy
 
-  validates :coupon_id, presence: true
   validates :customer_id, presence: true
   validates :merchant_id, presence: true
   validates :status, inclusion: { in: ["shipped", "packaged", "returned"] }
