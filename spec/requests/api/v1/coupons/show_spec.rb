@@ -34,7 +34,6 @@ RSpec.describe "Coupons Show Endpoint", type: :request do
     expect(attributes).to have_key(:name)
     expect(attributes[:name]).to eq(@coupon_1.name)
 
-    # require "pry"; binding.pry
     expect(attributes).to have_key(:code)
     expect(attributes[:code]).to eq(@coupon_1.code)
 

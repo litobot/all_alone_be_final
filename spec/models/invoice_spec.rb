@@ -31,6 +31,7 @@ RSpec.describe Invoice, type: :model do
       expect(invoice.errors[:status]).to include("is not included in the list")
     end
 
+    # Maybe I just put an additional status option of "pending" here?
     it { should validate_inclusion_of(:status).in_array(["shipped", "packaged", "returned"]) }
   end
 end
