@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   get "/api/v1/merchants/:merchant_id/customers", to: "api/v1/merchant_customers#index"
   get "/api/v1/merchants/:id/items", to: "api/v1/item_merchants#index"
-  get "/api/v1/merchants/:merchant_id/invoices/:id", to: "api/v1/invoices#show"
+  get "/api/v1/merchants/:merchant_id/invoices", to: "api/v1/invoices#index"
 
   get "/api/v1/merchants/:merchant_id/coupons", to: "api/v1/coupons#index"
   get "/api/v1/merchants/:merchant_id/coupons/:id", to: "api/v1/coupons#show"

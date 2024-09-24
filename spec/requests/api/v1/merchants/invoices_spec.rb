@@ -10,7 +10,7 @@ RSpec.describe "Merchant Invoices Endpoint", type: :request do
     @invoice_2 = Invoice.create!(status: "shipped", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_1)
     @invoice_3 = Invoice.create!(status: "returned", customer: @customer_1, merchant: @merchant_1, coupon: nil)
 
-    get "/api/v1/merchants/#{@merchant_1.id}/invoices/:id"
+    get "/api/v1/merchants/#{@merchant_1.id}/invoices"
   end
   
   describe "returning a merchant's invoices" do
@@ -57,7 +57,9 @@ RSpec.describe "Merchant Invoices Endpoint", type: :request do
         
         expect(attributes).to have_key(:coupon_id)
 
-        if invoice_response[:id] == @invoice_3.id
+        # I always forget JSON returns strings...
+        # Had to add .to_i
+        if invoice_response[:id].to_i == @invoice_3.id
           expect(attributes[:coupon_id]).to be_nil
         else
           expect(attributes[:coupon_id]).to eq(@coupon_1.id)
