@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+# Because coupons can have EITHER a percent_off or a dollar_off amount, but not BOTH, will I need a way to test this here?
+
 RSpec.describe Coupon, type: :model do
   let(:merchant) { Merchant.create(name: "Lito's Store") }
 
