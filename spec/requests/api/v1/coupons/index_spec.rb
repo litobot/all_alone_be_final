@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Coupons Index Endpoint", type: :request do
   before(:each) do
     @merchant_1 = Merchant.create!(name: "Lito")
+    @merchant_2 = Merchant.create!(name: "Hercules")
     @coupon_1 = Coupon.create!(name: "Super Secret Discount", code: "BOGO20", percent_off: 20.00, status: "active", merchant: @merchant_1)
     @coupon_2 = Coupon.create!(name: "Nunya Biznass", code: "10-OFF", dollar_off: 10.00, status: "active", merchant: @merchant_1)
     @coupon_3 = Coupon.create!(name: "Vote For Pedro", code: "BOGO50", percent_off: 50.00, status: "active", merchant: @merchant_1)
@@ -40,7 +41,7 @@ RSpec.describe "Coupons Index Endpoint", type: :request do
     end
   end
 
-  desscribe "sad paths" do
+  describe "sad paths" do
     it "returns a 404 error if the merchant does not exist" do
       get "/api/v1/merchants/9999/coupons"
   
