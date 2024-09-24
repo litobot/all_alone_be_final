@@ -8,7 +8,7 @@ class Item < ApplicationRecord
   validates :merchant_id, presence: true
 
   def self.sorted_by_price
-      order(:unit_price)
+    order(:unit_price)
   end
 
   def self.sort_and_filter(params)
@@ -31,18 +31,18 @@ class Item < ApplicationRecord
   end
 
   def self.find_one_by_name(name)
-      self.where("name ILIKE '%#{name}%'").order(:name).first
+    self.where("name ILIKE '%#{name}%'").order(:name).first
   end
-  
+
   def self.filter_by_name(name)
-      self.where("name ILIKE '%#{name}%'")
+    self.where("name ILIKE '%#{name}%'")
   end
 
   def self.filter_by_min(min_price)
-      self.where("unit_price >= #{min_price}")
+    self.where("unit_price >= #{min_price}")
   end
 
   def self.filter_by_max(max_price)
-      self.where("unit_price <= #{max_price}")
+    self.where("unit_price <= #{max_price}")
   end
 end
