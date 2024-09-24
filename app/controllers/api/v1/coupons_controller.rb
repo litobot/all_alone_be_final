@@ -22,6 +22,11 @@ class Api::V1::CouponsController < ApplicationController
     render json: CouponSerializer.new(new_coupon), status: 201
   end
 
+  def update
+    updated_coupon = Coupon.update(params[:id], coupon_params)
+    render json: CouponSerializer.new(updated_coupon)
+  end
+
   private
 
   def coupon_params
