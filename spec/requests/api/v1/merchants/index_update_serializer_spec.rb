@@ -31,25 +31,25 @@ RSpec.describe "Merchant Index Serializer Update", type: :request do
     # Find the merchant from the merchant_responses with the matching id
     # Assign to a variable
     # Verify each merchant's response contains the :coupons_count showing # coupons per merchant
-    merchant_1_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_1.id }
-    merchant_2_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_2.id }
-    merchant_3_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_3.id }
-    merchant_4_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_4.id }
+    @merchant_1_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_1.id }
+    @merchant_2_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_2.id }
+    @merchant_3_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_3.id }
+    @merchant_4_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_4.id }
   end
 
   describe "update Merchant Serializer for index action" do
     it "returns JSON with a coupons_count attribute showing # of coupons per merchant" do
-      expect(merchant_1_response[:attributes][:coupons_count]).to eq(1)
-      expect(merchant_2_response[:attributes][:coupons_count]).to eq(2)
-      expect(merchant_3_response[:attributes][:coupons_count]).to eq(1)
-      expect(merchant_4_response[:attributes][:coupons_count]).to eq(0)
+      expect(@merchant_1_response[:attributes][:coupons_count]).to eq(1)
+      expect(@merchant_2_response[:attributes][:coupons_count]).to eq(2)
+      expect(@merchant_3_response[:attributes][:coupons_count]).to eq(1)
+      expect(@merchant_4_response[:attributes][:coupons_count]).to eq(0)
     end
 
     it "returns JSON with an invoice_coupon_count showing # of invoices w/coupons per merchant" do
-      expect(merchant_1_response[:attributes][:invoice_coupon_count]).to eq(2)
-      expect(merchant_2_response[:attributes][:invoice_coupon_count]).to eq(2)
-      expect(merchant_3_response[:attributes][:invoice_coupon_count]).to eq(1)
-      expect(merchant_4_response[:attributes][:invoice_coupon_count]).to eq(0)
+      expect(@merchant_1_response[:attributes][:invoice_coupon_count]).to eq(2)
+      expect(@merchant_2_response[:attributes][:invoice_coupon_count]).to eq(2)
+      expect(@merchant_3_response[:attributes][:invoice_coupon_count]).to eq(1)
+      expect(@merchant_4_response[:attributes][:invoice_coupon_count]).to eq(0)
     end
   end
 end

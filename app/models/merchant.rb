@@ -28,6 +28,14 @@ class Merchant < ApplicationRecord
     self.items.count
   end
 
+  def coupons_count
+    self.coupons.count
+  end
+
+  def invoice_coupon_count
+    self.invoices.where.not(coupon_id: nil).count
+  end
+
   def self.filter_by_name(name)
     self.where("name ILIKE '%#{name}%'").order(:name).first
   end
