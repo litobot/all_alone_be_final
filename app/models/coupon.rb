@@ -9,7 +9,7 @@ class Coupon < ApplicationRecord
   validate :limit_coupons_to_five
 
   def limit_coupons_to_five
-    if merchant && merchant.coupons.where(status: 'active').count > 5
+    if merchant && merchant.coupons.where(status: 'active').count >= 5
       errors.add(:base, "A merchant may only have 5 active coupons at one time!")
     end
   end
