@@ -11,11 +11,14 @@ RSpec.describe "Coupons Create Endpoint", type: :request do
         name: "Think Green",
         code: "GREEN",
         percent_off: 42.0,
-        status: "active"
+        status: "active",
+        merchant_id: @merchant_1.id
       }
 
       headers = { "CONTENT_TYPE" => "application/json" }
       post "/api/v1/merchants/#{@merchant_1.id}/coupons", params: JSON.generate(coupon: coupon_params), headers: headers
+
+      puts response.body
 
       coupon = JSON.parse(response.body, symbolize_names: true)[:data]
 
