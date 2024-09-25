@@ -5,12 +5,14 @@ class Coupon < ApplicationRecord
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true
   validates :status, presence: true, inclusion: { in: ["active", "inactive"] }
-  
-  # How can I validate numericality of these if using the custom validations?
-
-  # validates :dollar_off, 
-  # validates :percent_off, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 100 }
   validate :validate_discounts
+  # Add custom validation for >= 5 coupons per merchant
+
+  def limit_coupons_to_five
+    if merchant.coupons.active > 5
+      errors.add(:base, "A merchant may only have 5 active coupons at one!")
+    end
+  end
 
   def times_used 
     self.invoices.count

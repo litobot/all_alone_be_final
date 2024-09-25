@@ -22,10 +22,12 @@ RSpec.describe Merchant, type: :model do
       @customer_1 = Customer.create!(first_name: "Johnny", last_name: "Carson")
 
       @coupon_1 = Coupon.create!(name: "Buy One Get One", code: "BOGO20", percent_off: 20.0, status: "active", merchant_id: @merchant_1.id)
+      @coupon_2 = Coupon.create!(name: "Diss Count", code: "$$$", dollar_off: 70.0, status: "active", merchant_id: @merchant_2.id)
 
       @invoice_1 = Invoice.create!(status: "shipped", customer_id: @customer_1.id, merchant_id: @merchant_1.id, coupon: @coupon_1)
-      @invoice_2 = Invoice.create!(status: "returned", customer_id: @customer_1.id, merchant_id: @merchant_2.id, coupon: @coupon_1)
-      @invoice_3 = Invoice.create!(status: "returned", customer_id: @customer_1.id, merchant_id: @merchant_3.id, coupon: @coupon_1)
+      @invoice_2 = Invoice.create!(status: "returned", customer_id: @customer_1.id, merchant_id: @merchant_2.id, coupon: @coupon_2)
+      @invoice_3 = Invoice.create!(status: "returned", customer_id: @customer_1.id, merchant_id: @merchant_3.id, coupon: nil)
+      @invoice_4 = Invoice.create!(status: "packaged", customer_id: @customer_1.id, merchant_id: @merchant_3.id, coupon: nil)
     end
 
     it "retrieves all merchants" do
@@ -57,6 +59,22 @@ RSpec.describe Merchant, type: :model do
       it "returns nil when no merchants match query in part or whole" do
         result = Merchant.filter_by_name("xxx")
         expect(result).to be_nil
+      end
+    end
+
+    context "#coupons_count" do
+      it "returns the # of coupons a merchant has" do
+        expect(@merchant_1.coupons_count).to eq(1)  
+        expect(@merchant_2.coupons_count).to eq(1)
+        expect(@merchant_3.coupons_count).to eq(0)
+      end
+    end
+
+    context "#invoice_coupon_count" do
+      it "returns the # of invoices with applied coupons a merchant has" do
+        expect(@merchant_1.invoice_coupon_count).to eq(1)
+        expect(@merchant_2.invoice_coupon_count).to eq(1)
+        expect(@merchant_3.invoice_coupon_count).to eq(0)
       end
     end
   end

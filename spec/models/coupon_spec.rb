@@ -20,8 +20,6 @@ RSpec.describe Coupon, type: :model do
     it { should validate_presence_of(:code) }
     it { should validate_presence_of(:name) }
     it { should validate_inclusion_of(:status).in_array(["active", "inactive"]) }
-    # it { should validate_presence_of(:percent_off) }
-    # it { should validate_numericality_of(:percent_off).is_greater_than(0).is_less_than_or_equal_to(100) }
 
     # Must use .new for custom validations to avoid raising errors upon failure
     context "must apply at least one discount" do
@@ -49,18 +47,50 @@ RSpec.describe Coupon, type: :model do
       @customer_1 = Customer.create!(first_name: "Bill", last_name: "Brasky")
       @coupon_1 = Coupon.create!(name: "Money Money Money", code: "CASH", percent_off: 10.00, status: "active", merchant: @merchant_1)
       @coupon_2 = Coupon.create!(name: "Negative Ghostrider", code: "FULL", percent_off: 25.00, status: "active", merchant: @merchant_1)
+      @coupon_3 = Coupon.create!(name: "Nacho Pro'lem", code: "NACHO", dollar_off: 17.00, status: "inactive", merchant: @merchant_1)
       
       @invoice_1 = Invoice.create!(status: "shipped", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_1)
       @invoice_2 = Invoice.create!(status: "packaged", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_1)
       @invoice_3 = Invoice.create!(status: "shipped", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_1)
+      @invoice_4 = Invoice.create!(status: "returned", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_2)
+      @invoice_5 = Invoice.create!(status: "packaged", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_2)
     end
     
-    it "returns # of times a coupon is used" do
-      expect(@coupon_1.times_used).to eq(3)
+    context "#times_used method" do
+      it "returns # of times a coupon is used" do
+        expect(@coupon_1.times_used).to eq(3)
+        expect(@coupon_2.times_used).to eq(2)
+      end
+      
+      it "returns 0 if the coupon is never used" do
+        expect(@coupon_3.times_used).to eq(0)
+      end
     end
-    
-    it "returns 0 if the coupon is never used" do
-      expect(@coupon_2.times_used).to eq(0)
+
+    context "#sort_by_status" do
+      it "returns only coupons with an 'active' status" do
+        result = Coupon.sort_by_status(@merchant_1.id, "active")
+
+        expect(result.count).to eq(2)
+      end
+
+      it "returns only coupons with an 'inactive' status" do
+        result = Coupon.sort_by_status(@merchant_1.id, "inactive")
+
+        expect(result.count).to eq(1)
+      end
+
+      it "returns ALL coupons if no status is sent via query params" do
+        result = Coupon.sort_by_status(@merchant_1.id, nil)
+
+        expect(result.count).to eq(3)
+      end
+
+      it "returns ALL coupons if query params are invalid" do
+        result = Coupon.sort_by_status(@merchant_1, "XXXX")
+
+        expect(result.count).to eq(3)
+      end
     end
   end
 end
