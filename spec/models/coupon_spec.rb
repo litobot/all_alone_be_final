@@ -42,4 +42,25 @@ RSpec.describe Coupon, type: :model do
       end
     end
   end
+
+  describe "class methods" do
+    before(:each) do
+      @merchant_1 = Merchant.create!(name: "Litobot's Garden Products")
+      @customer_1 = Customer.create!(first_name: "Bill", last_name: "Brasky")
+      @coupon_1 = Coupon.create!(name: "Money Money Money", code: "CASH", percent_off: 10.00, status: "active", merchant: @merchant_1)
+      @coupon_2 = Coupon.create!(name: "Negative Ghostrider", code: "FULL", percent_off: 25.00, status: "active", merchant: @merchant_1)
+      
+      @invoice_1 = Invoice.create!(status: "shipped", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_1)
+      @invoice_2 = Invoice.create!(status: "packaged", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_1)
+      @invoice_3 = Invoice.create!(status: "shipped", customer: @customer_1, merchant: @merchant_1, coupon: @coupon_1)
+    end
+    
+    it "returns # of times a coupon is used" do
+      expect(@coupon_1.times_used).to eq(3)
+    end
+    
+    it "returns 0 if the coupon is never used" do
+      expect(@coupon_2.times_used).to eq(0)
+    end
+  end
 end

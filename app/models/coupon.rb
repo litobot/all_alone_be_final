@@ -31,6 +31,8 @@ class Coupon < ApplicationRecord
       Coupon.where(merchant_id: merchant_id, status: :active)
     elsif status == "inactive"
       Coupon.where(merchant_id: merchant_id, status: :inactive)
+    else
+      Coupon.where(merchant_id: merchant_id)
     end
   end
 end
