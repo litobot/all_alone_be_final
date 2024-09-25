@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Coupons Create Endpoint", type: :request do
   before(:each) do
     @merchant_1 = Merchant.create!(name: "Litobot's Garden Products")

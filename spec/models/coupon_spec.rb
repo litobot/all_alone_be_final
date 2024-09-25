@@ -50,6 +50,20 @@ RSpec.describe Coupon, type: :model do
       it "disallows more than 5 active coupons to be created" do
         expect { Coupon.create!(name: "6", code: "6", dollar_off: 6.00, status: "active", merchant: @merchant_1) }.to raise_error(ActiveRecord::RecordInvalid, /A merchant may only have 5 active coupons at one time!/)
       end
+
+      it "allows inactive coupons to be created without counting towards the limit of 5 for active coupons" do
+        expect { Coupon.create!(name: "Inactive Coupon", code: "INACTIVE", dollar_off: 7.00, status: "inactive", merchant: @merchant_1) }.to_not raise_error
+      end
+    
+      it "allows a coupon to update as long as the new status is inactive" do
+        expect { @coupon_1.update!(status: 'inactive') }.to_not raise_error
+      end
+    
+      it "disallows updating a coupon's status to active if 5 active coupons already exist" do
+        @coupon_1.update!(status: 'inactive')
+        @coupon_6 = Coupon.create!(name: "6", code: "6", dollar_off: 6.00, status: "active", merchant: @merchant_1)
+        expect { @coupon_1.update!(status: 'active') }.to raise_error(ActiveRecord::RecordInvalid, /A merchant may only have 5 active coupons at one time!/)
+      end
     end
   end
 

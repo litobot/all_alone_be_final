@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Merchant Index Serializer Update", type: :request do
   before(:each) do
     @merchant_1 = Merchant.create!(name: "Litobot's Garden Products")
@@ -28,9 +29,6 @@ RSpec.describe "Merchant Index Serializer Update", type: :request do
     expect(response).to be_successful
     expect(merchant_responses).to be_an(Array)
 
-    # Find the merchant from the merchant_responses with the matching id
-    # Assign to a variable
-    # Verify each merchant's response contains the :coupons_count showing # coupons per merchant
     @merchant_1_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_1.id }
     @merchant_2_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_2.id }
     @merchant_3_response = merchant_responses.find { |merchant| merchant[:id].to_i == @merchant_3.id }
