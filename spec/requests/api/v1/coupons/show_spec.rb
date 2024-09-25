@@ -10,7 +10,6 @@ RSpec.describe "Coupons Show Endpoint", type: :request do
     
     
     get "/api/v1/merchants/#{@merchant_1.id}/coupons/#{@coupon_1.id}"
-    # require "pry"; binding.pry
   end
 
   it "returns with the proper JSON format including 200 status response code" do
@@ -19,8 +18,6 @@ RSpec.describe "Coupons Show Endpoint", type: :request do
     expect(response).to be_successful
     expect(response).to have_http_status(200)
     
-    # Want to check only one coupon object being returned
-    # Response would be an array if multiple objects returned
     expect(coupon).to be_a(Hash)
 
     expect(coupon).to have_key(:id)
@@ -43,13 +40,10 @@ RSpec.describe "Coupons Show Endpoint", type: :request do
     expect(attributes).to have_key(:status)
     expect(attributes[:status]).to eq(@coupon_1.status)
 
-    # Example in before(:each) contains only percent_off attribute.
     expect(attributes).to have_key(:dollar_off)
     expect(attributes[:dollar_off]).to be_nil
   end
 
-  # (Number of invoices it appears on)
-  # Add to JSON response via serializer
   it "has a custom counter attribute showing # of times used" do
     coupon = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
 
@@ -74,12 +68,10 @@ RSpec.describe "Coupons Show Endpoint", type: :request do
       expect(coupon[:error]).to eq("Coupon not found")
     end
 
-    # Either use merchant_id: @merchant_1.id   OR   merchant: @merchant_1
     it "returns a 404 if coupon does not belong to specified merchant" do
       merchant_2 = Merchant.create!(name: "Not Me")
       coupon_2 = Coupon.create!(name: "Tree Fitty", code: "3FITTY", dollar_off: 3.50, percent_off: nil, status: "active", merchant: merchant_2)
     
-      # This merchant isn't associated with coupon_2
       get "/api/v1/merchants/#{@merchant_1.id}/coupons/#{coupon_2.id}"
     
       expect(response).to have_http_status(404)

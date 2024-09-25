@@ -2,7 +2,7 @@ class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :invoices, dependent: :destroy
   has_many :coupons
-  has_many :customers, through: :invoices # Are we using this?
+  has_many :customers, through: :invoices
 
   validates_presence_of :name, presence: true
 

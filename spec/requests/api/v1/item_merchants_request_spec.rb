@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Item Merchants", type: :request do 
   it "returns items based on merchant id" do 
     merchant = Merchant.create!(id: 1, name: "Test Merchant")
