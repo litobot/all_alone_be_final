@@ -18,8 +18,13 @@ class Api::V1::CouponsController < ApplicationController
   end
 
   def create
-    new_coupon = Coupon.create(coupon_params)
-    render json: CouponSerializer.new(new_coupon), status: 201
+    new_coupon = Coupon.new(coupon_params)
+  
+    if new_coupon.save
+      render json: CouponSerializer.new(new_coupon), status: 201
+    else
+      render json: { errors: new_coupon.errors.full_messages }, status: 422
+    end
   end
 
   def update
@@ -30,6 +35,6 @@ class Api::V1::CouponsController < ApplicationController
   private
 
   def coupon_params
-    params.require(:coupon).permit(:name, :code, :percent_off, :dollar_off, :status)
+    params.require(:coupon).permit(:name, :code, :percent_off, :dollar_off, :status, :merchant_id)
   end
 end
