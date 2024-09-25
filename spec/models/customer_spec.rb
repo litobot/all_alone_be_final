@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe Customer, type: :model do
   describe "relationships" do
     it { should have_many(:invoices) }
@@ -10,7 +11,6 @@ RSpec.describe Customer, type: :model do
     it { should validate_presence_of(:last_name) }
   end
 
-  # Test for the class method `.for_merchant`
   describe "class methods" do
     before :each do
       @merchant_1 = Merchant.create!(name: "Merchant A")

@@ -88,9 +88,4 @@ RSpec.describe "Modify Coupon Status Endpoint", type: :request do
       expect(attributes[:dollar_off]).to be_nil
     end
   end
-
-  describe "sad paths" do
-    # A coupon cannot be deactivated if there are any pending invoices with that coupon.
-    # Do I need to change the status of invoices to include a pending?
-  end
 end

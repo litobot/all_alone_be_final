@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Items endpoints", type: :request do
   it "can send a list of items" do
     Merchant.create!(id: 1, name: "Test Merchant")

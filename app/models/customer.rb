@@ -6,6 +6,6 @@ class Customer < ApplicationRecord
   validates :last_name, presence: true
 
   def self.for_merchant(merchant_id)
-      joins(:invoices).where(invoices: { merchant_id: merchant_id }).distinct
+    joins(:invoices).where(invoices: { merchant_id: merchant_id }).distinct
   end
 end

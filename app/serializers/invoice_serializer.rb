@@ -1,4 +1,3 @@
-# app/serializers/invoice_serializer.rb
 class InvoiceSerializer
   include JSONAPI::Serializer
 

@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Merchants endpoints", type: :request do
   before(:each) do
     @merchant_1 = Merchant.create!(name: "Brown and Sons", created_at: 3.seconds.ago)

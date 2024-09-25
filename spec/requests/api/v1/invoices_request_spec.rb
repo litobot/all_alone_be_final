@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Merchant Invoices API", type: :request do
   it "can send a list of invoices for a merchant based on status" do
     merchant = Merchant.create!(name: "Test Merchant")

@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# Because coupons can have EITHER a percent_off or a dollar_off amount, but not BOTH, will I need a way to test this here?
 
 RSpec.describe Coupon, type: :model do
   let(:merchant) { Merchant.create(name: "Lito's Store") }
@@ -21,7 +20,6 @@ RSpec.describe Coupon, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_inclusion_of(:status).in_array(["active", "inactive"]) }
 
-    # Must use .new for custom validations to avoid raising errors upon failure
     context "must apply at least one discount" do
       it "is valid with a percent_off discount" do
         coupon = Coupon.new(name: "Buy One Get One 30% Off", code: "BOGO30", percent_off: 30.00, status: "active", merchant: merchant)
@@ -33,7 +31,6 @@ RSpec.describe Coupon, type: :model do
         expect(coupon).to be_valid
       end
 
-      ### Make Notes
       it "is not valid if neither discounts present" do
         coupon = Coupon.new(name: "No Soup For You", code: "NOSOUP", status: "active", merchant: merchant)
         expect(coupon).to_not be_valid

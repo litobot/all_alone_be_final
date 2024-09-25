@@ -8,7 +8,6 @@ class Coupon < ApplicationRecord
   validate :validate_discounts
   validate :limit_coupons_to_five
 
-  # Must have existing merchant (if merchant...)
   def limit_coupons_to_five
     if merchant && merchant.coupons.where(status: 'active').count > 5
       errors.add(:base, "A merchant may only have 5 active coupons at one time!")
@@ -19,16 +18,12 @@ class Coupon < ApplicationRecord
     self.invoices.count
   end
 
-  ### Make Notes
-  ### Will raise coupon-specific error informing user when one of these is missing
   def validate_discounts
     unless dollar_off.present? || percent_off.present?
       errors.add(:base, "Either dollar_off or percent_off must be present")
     end
   end
 
-  # Must pass the merchant's id from CouponsController
-  # How else is it going to know who's coupon we want?
   def self.sort_by_status(merchant_id, status)
     if status == "active"
       Coupon.where(merchant_id: merchant_id, status: :active)

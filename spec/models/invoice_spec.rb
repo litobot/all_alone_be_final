@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe Invoice, type: :model do
   let(:merchant1) { Merchant.create(name: "Lito's Store") }
   let(:customer) { Customer.create(first_name: "John", last_name: "Doe") }
