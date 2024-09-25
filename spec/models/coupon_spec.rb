@@ -39,6 +39,24 @@ RSpec.describe Coupon, type: :model do
         expect(coupon).to_not be_valid
       end
     end
+
+    context "custom validation - #limit_coupons_to_five" do
+      before(:each) do
+        @merchant_1 = Merchant.create!(name: "Limit To 5")
+        @coupon_1 = Coupon.create!(name: "1", code: "1", dollar_off: 1.00, status: "active", merchant: @merchant_1)
+        @coupon_2 = Coupon.create!(name: "2", code: "2", dollar_off: 2.00, status: "active", merchant: @merchant_1)
+        @coupon_3 = Coupon.create!(name: "3", code: "3", dollar_off: 3.00, status: "active", merchant: @merchant_1)
+        @coupon_4 = Coupon.create!(name: "4", code: "4", dollar_off: 4.00, status: "active", merchant: @merchant_1)
+        @coupon_5 = Coupon.create!(name: "5", code: "5", dollar_off: 5.00, status: "active", merchant: @merchant_1)
+      end
+
+      it "disallows more than 5 active coupons to be created" do
+        @coupon_6 = Coupon.create!(name: "6", code: "6", dollar_off: 6.00, status: "active", merchant: @merchant_1)
+
+        expect(@coupon_6).to_not be_valid
+        expect(@coupon_6.errors[:base]).to include("A merchant may only have 5 active coupons at one time!")
+      end
+    end
   end
 
   describe "class methods" do
