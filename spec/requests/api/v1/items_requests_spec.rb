@@ -7,6 +7,7 @@ RSpec.describe "Items endpoints", type: :request do
     Merchant.create!(id: 2, name: "Test Merchant")
     Merchant.create!(id: 3, name: "Test Merchant")
     Merchant.create!(id: 4, name: "Test Merchant")
+
     Item.create!(name: "Mouse", description: "Clicks", unit_price:100.99 , merchant_id:1)
     Item.create!(name: "Keyboard", description: "Types", unit_price:10.99 , merchant_id:2)
     Item.create!(name: "Pad", description: "Soft", unit_price:120.99 , merchant_id:3)
@@ -134,6 +135,7 @@ RSpec.describe "Items endpoints", type: :request do
       unit_price: 49.99,
       merchant_id: 1
       }
+
       headers = {"CONTENT_TYPE" => "application/json"}
       Merchant.create!(id: 1, name: "Test Merchant")
       post "/api/v1/items", headers: headers, params: JSON.generate(item: item_params)
@@ -174,6 +176,7 @@ RSpec.describe "Items endpoints", type: :request do
   describe "Price Low to High" do 
     it "returns all items by price(low to high)" do 
       Merchant.create!(id: 1, name: "Test Merchant")
+      
       Item.create!(name: "Mouse", description: "Clicks", unit_price:100.99 , merchant_id:1)
       Item.create!(name: "Keyboard", description: "Types", unit_price:10.99 , merchant_id:1)
       Item.create!(name: "Pad", description: "Soft", unit_price:120.99 , merchant_id:1)

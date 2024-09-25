@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Coupons Create Endpoint", type: :request do
   before(:each) do
     @merchant_1 = Merchant.create!(name: "Litobot's Garden Products")
@@ -11,11 +12,14 @@ RSpec.describe "Coupons Create Endpoint", type: :request do
         name: "Think Green",
         code: "GREEN",
         percent_off: 42.0,
-        status: "active"
+        status: "active",
+        merchant_id: @merchant_1.id
       }
 
       headers = { "CONTENT_TYPE" => "application/json" }
       post "/api/v1/merchants/#{@merchant_1.id}/coupons", params: JSON.generate(coupon: coupon_params), headers: headers
+
+      puts response.body
 
       coupon = JSON.parse(response.body, symbolize_names: true)[:data]
 
@@ -37,6 +41,26 @@ RSpec.describe "Coupons Create Endpoint", type: :request do
 
       expect(attributes).to have_key(:status)
       expect(attributes[:status]).to eq(coupon_params[:status])
+    end
+  end
+
+  describe "sad path" do
+    it "returns a 422 response status when required fields are absent" do
+      coupon_params = {
+        name: "Bad Coupon",
+        percent_off: 25.00,
+        status: "active"
+      }
+
+      headers = { "CONTENT_TYPE" => "application/json" }
+      post "/api/v1/merchants/#{@merchant_1.id}/coupons", params: JSON.generate(coupon: coupon_params), headers: headers
+
+      error_response = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to have_http_status(422)
+      expect(error_response).to have_key(:errors)
+
+      expect(error_response[:errors]).to include("Code can't be blank")
     end
   end
 end

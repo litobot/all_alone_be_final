@@ -6,7 +6,7 @@ RSpec.describe Merchant, type: :model do
     it { should have_many :items }
     it { should have_many :invoices }
     it { should have_many :coupons }
-    it { should have_many(:customers).through(:invoices) } # Again, not sure if I am using this and/or should remove it.
+    it { should have_many(:customers).through(:invoices) }
   end
 
   describe 'validations' do

@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Sorted by Status Index Queries", type: :request do
   before(:each) do
     @merchant_1 = Merchant.create!(name: "Lito")

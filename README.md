@@ -30,12 +30,7 @@ In this group project, Little Shop, our team worked on building an E-Commerce ap
 * Practice individual research (reading documentation, articles, videos, mentors)
 
 ### Contributors
-Candice Cirbo https://github.com/CCirbo  
-Lito Croy https://github.com/litobot  
-Jim Macur https://github.com/jimmacur  
-Melchor De La Rosa https://github.com/MDelarosa1993  
-Terra Manning https://github.com/TDManning
-
+Lito Croy https://github.com/litobot
 
 </br>
 <img src="DataDiagram.png" alt="Diagram showing data table relationships" width="750" height="350">

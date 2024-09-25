@@ -4,9 +4,6 @@ require 'rails_helper'
 RSpec.describe Invoice, type: :model do
   let(:merchant1) { Merchant.create(name: "Lito's Store") }
   let(:customer) { Customer.create(first_name: "John", last_name: "Doe") }
-  
-  # I might be able to remove this
-  # This was an addition when I was lost in the mire of extra validations
   let(:coupon) { Coupon.create(name: "Buy One Get One", code: "BOGO20", percent_off: 20.0, status: "active", merchant_id: merchant1.id) }
 
   describe "relationships" do
@@ -25,14 +22,12 @@ RSpec.describe Invoice, type: :model do
       expect(invoice.errors[:status]).to include("is not included in the list")
     end
 
-    # Good sad path for a model test
     it "is invalid with an empty string as status" do
       invoice = Invoice.new(customer: customer, merchant: merchant1, coupon: coupon, status: "")
       expect(invoice).to_not be_valid
       expect(invoice.errors[:status]).to include("is not included in the list")
     end
 
-    # Maybe I just put an additional status option of "pending" here?
     it { should validate_inclusion_of(:status).in_array(["shipped", "packaged", "returned"]) }
   end
 end

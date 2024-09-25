@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe "Merchant Invoices Endpoint", type: :request do
   before(:each) do
     @merchant_1 = Merchant.create!(name: "Litobot's Garden Products")
@@ -18,11 +19,10 @@ RSpec.describe "Merchant Invoices Endpoint", type: :request do
       invoice_responses = JSON.parse(response.body, symbolize_names: true)[:data]
   
       expect(response).to be_successful
-      # invoice_responses contains an array of multiple invoices
+
       expect(invoice_responses).to be_an(Array)
   
       invoice_responses.each do |invoice_response|
-        # Each invoice_response will be only a hash - makes sure it's just one returned
         expect(invoice_response).to be_a(Hash)
   
         expect(invoice_response).to have_key(:id)
@@ -33,13 +33,10 @@ RSpec.describe "Merchant Invoices Endpoint", type: :request do
   
         attributes = invoice_response[:attributes]
   
-        # DRY way to check each invoice_response has each key
-        # Some might have a status of `null`, so this is good enough.
         [:customer_id, :merchant_id, :status].each do |key|
           expect(attributes).to have_key(key)
         end
   
-        # Verifies they all came from same merchant by id in HTTP request
         expect(attributes[:merchant_id]).to eq(@merchant_1.id)
       end
     end
@@ -49,16 +46,11 @@ RSpec.describe "Merchant Invoices Endpoint", type: :request do
 
       expect(response).to be_successful
 
-      # Get inside attributes for each invoice_response
-      # We know invoice_3 has a nil value for :coupon_id
-      # The others should match with @coupon_1.id
       invoice_responses.each do |invoice_response|
         attributes = invoice_response[:attributes]
         
         expect(attributes).to have_key(:coupon_id)
 
-        # I always forget JSON returns strings...
-        # Had to add .to_i
         if invoice_response[:id].to_i == @invoice_3.id
           expect(attributes[:coupon_id]).to be_nil
         else
